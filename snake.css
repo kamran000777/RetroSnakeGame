@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-image: url('https://img.freepik.com/free-vector/detailed-jungle-background_23-2148953379.jpg?w=2000');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+body>h1{
+  font-family: 'Hanalei Fill', cursive;
+  text-align: center;
+  text-decoration: underline;
+  font-size: 3rem;
+}
+.body {
+  height: 100vh;
+  text-align: center;
+  margin: 10px auto;
+}
+.board__container{
+  display: flex;
+  justify-content: center;
+}
+#board {
+  background:linear-gradient(to bottom, rgb(107, 185, 107) 0%, lightgreen);
+  width: 90vmin;
+  height: 90vmin;
+  border: 4px solid black;
+  display: grid;
+  grid-template-columns: repeat(21, 1fr);
+  grid-template-rows: repeat(21, 1fr);
+  box-shadow: 2px 0px 15px black;
+}
+
+.head {
+  background-color: rgba(11, 34, 11, 0.651);
+  border-radius: 5px;
+  box-shadow: 2px 4px 6px black;
+  z-index: 10;
+}
+.snake{
+  background-color: rgb(1, 24, 1);
+  box-shadow: 2px 4px 6px black;
+  border-radius: 5px;
+}
+.food {
+  background-image: url('https://img1.picmix.com/output/stamp/normal/5/0/5/3/1283505_1a59f.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.score__box{
+  display: flex;
+  justify-content: center;
+  font-family: 'Hanalei Fill', cursive;
+ margin-bottom: 10px;
+ font-size: 1.5rem;
+}
+#hiscoreBox{
+  color: rgb(190, 2, 2);
+  padding-left: 5rem;
+}
+#scoreBox{
+  color: green;
+}
+@media(max-width:600px){
+  body>h1{
+  font-size: 2rem;
+  }
+}
+@media(max-width:350px){
+  body>h1{
+  font-size: 1.5rem;
+  }
+  .score__box{
+    font-size: 1.2rem;
+  }
+}
+
+

@@ -1,7 +1,5 @@
 const direction = { x: 0, y: 0 };
 const foodSound = new Audio("food.mp3");
-const moveSound = new Audio("move.mp3");
-const gameOver = new Audio("gameover.wav");
 let speed = 7;
 let lastPaintTime = 0;
 let snakeArr = [{ x: 13, y: 15 }];
@@ -39,14 +37,12 @@ for(let i=1; i<snakeArr.length; i++){
 function gameEngine() {
   //updatine the snake array and food
   if(isCollide(snakeArr)){
-    gameOver.play();
       inputdir={x:0, y:0};
       snakeArr=[{x:13, y:15}];
       scoreBox.innerHTML = "Score: " + score;
 }
 // snake eaten the food, increment the snake and puttin food to another postion
 if(snakeArr[0].y == food.y && snakeArr[0].x == food.x){
-      foodSound.play();
       score++;
       if(score>hiscoreval){
         hiscoreval = score;
@@ -106,7 +102,6 @@ else{
 window.requestAnimationFrame(main);
 window.addEventListener("keydown", e => {
   inputdir = { x: 0, y: 1 };
-  moveSound.play();
 
   switch (e.key) {
     case "ArrowUp":

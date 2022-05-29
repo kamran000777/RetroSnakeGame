@@ -21,13 +21,11 @@ function main(currenttime) {
 function isCollide(snakeArr){
 for(let i=1; i<snakeArr.length; i++){
       if(snakeArr[i].x == snakeArr[0].x && snakeArr[i].y == snakeArr[0].y){   // bump into its self
-        score = 0;
             return true;
       }
 }
       // bump into the walls
        if(snakeArr[0].x >= 21 || snakeArr[0].x <=0 || snakeArr[0].y >= 21 || snakeArr[0].y <=0){
-        score = 0;
             return true;
         }
 
@@ -37,6 +35,8 @@ for(let i=1; i<snakeArr.length; i++){
 //updatine the snake array and food
 function gameEngine() {
   if(isCollide(snakeArr)){
+    alert(`Your score : ${score}`);
+    score = 0;
       inputdir={x:0, y:0};
       snakeArr=[{x:13, y:15}];
       scoreBox.textContent = "Score: " + score;  

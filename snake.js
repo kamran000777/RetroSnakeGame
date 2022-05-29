@@ -1,8 +1,6 @@
-const direction = { x: 0, y: 0 };
-const foodSound = new Audio("food.mp3");
 let speed = 7;
 let lastPaintTime = 0;
-let snakeArr = [{ x: 13, y: 15 }];
+let snakeArr = [{ x: 13, y: 15 }];  //snake head initially
 let inputdir = {x: 0, y: 0}; 
 let score = 0;
 let food = { x: 6, y: 7 };
@@ -16,6 +14,8 @@ function main(currenttime) {
   lastPaintTime = currenttime;
   gameEngine();
 }
+ 
+
 
 //collideing senarioes
 function isCollide(snakeArr){
@@ -34,41 +34,59 @@ for(let i=1; i<snakeArr.length; i++){
         return false;
 }
 
+//updatine the snake array and food
 function gameEngine() {
-  //updatine the snake array and food
   if(isCollide(snakeArr)){
       inputdir={x:0, y:0};
       snakeArr=[{x:13, y:15}];
-      scoreBox.innerHTML = "Score: " + score;
+      scoreBox.textContent = "Score: " + score;  
 }
-// snake eaten the food, increment the snake and puttin food to another postion
+
+//checking for is snake eaten the food
 if(snakeArr[0].y == food.y && snakeArr[0].x == food.x){
-      score++;
-      if(score>hiscoreval){
-        hiscoreval = score;
-        localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
-        hiscoreBox.innerHTML = "High Score: " + hiscoreval;
-    }
-      scoreBox.innerHTML = "Score: " + score;
-      snakeArr.unshift({x: snakeArr[0].x + inputdir.x, y: snakeArr[0].y + inputdir.y});
-      let a = 1;
-      let b = 18;
-      food = {x: Math.round(a + (b-a)* Math.random()), y: Math.round(a + (b-a)* Math.random())}
+     eatingLogic();
+}
+    movingSnake();
+    displaySnake()
+    displayFood();
+} 
+
+
+
+// snake eaten the food, increment the snake and new postion for food
+function eatingLogic(){
+  score++;
+  scoreBox.textContent = "Score: " + score;
+  const highscore = JSON.parse(localStorage.getItem('hiscore'));
+  if(score>highscore){
+    highScoreDisplay(score);
+}
+  snakeArr.unshift({x: snakeArr[0].x + inputdir.x, y: snakeArr[0].y + inputdir.y});
+  let a = 1;
+  let b = 18;
+  //generating new food grid
+  food = {x: Math.round(a + (b-a)* Math.random()), y: Math.round(a + (b-a)* Math.random())}
 }
 
 
 //moving the snake
-for(let i = snakeArr.length-2; i>=0; i--){
-   snakeArr[i+1] = {...snakeArr[i]};
-  }
+function movingSnake(){
+  for(let i = snakeArr.length-2; i>=0; i--){
+    snakeArr[i+1] = {...snakeArr[i]};
+   }
+ 
+   //moving the snake head
+   snakeArr[0].x += inputdir.x;
+   snakeArr[0].y += inputdir.y;
+}
 
-  snakeArr[0].x += inputdir.x;
-  snakeArr[0].y += inputdir.y;
 
-  //display the snake
+
+//displaying snake
+function displaySnake(){
   board.innerHTML = "";
   snakeArr.forEach((e, index) => {
-    snakeElement = document.createElement("div");
+    const snakeElement = document.createElement("div");
     snakeElement.style.gridRowStart = e.y;
     snakeElement.style.gridColumnStart = e.x;
 
@@ -79,29 +97,38 @@ for(let i = snakeArr.length-2; i>=0; i--){
     }
     board.appendChild(snakeElement);
   });
+}
 
-  // display the food
-  foodElement = document.createElement("div");
+
+//displaying food
+function displayFood(){
+  const foodElement = document.createElement("div");
   foodElement.style.gridRowStart = food.y;
   foodElement.style.gridColumnStart = food.x;
   foodElement.classList.add("food");
   board.appendChild(foodElement);
 }
-//main logic
-let hiscore = localStorage.getItem("hiscore");
-if(hiscore === null){
-    hiscoreval = 0;
-    localStorage.setItem("hiscore", JSON.stringify(hiscoreval))
-}
-else{
-    hiscoreval = JSON.parse(hiscore);
-    hiscoreBox.innerHTML = "High Score: " + hiscore;
+
+highScoreDisplay();
+
+function highScoreDisplay(highScore){
+    if(highScore){
+      localStorage.setItem("hiscore", JSON.stringify(highScore))
+      hiscoreBox.textContent = "High Score: " + highScore;
+    }else{
+      const highScore = JSON.parse(localStorage.getItem('hiscore'));
+
+      if(highScore){
+        hiscoreBox.textContent = "High Score: " + highScore;
+      }
+    }
 }
 
+//main logic
 //adding event listner for the window object to play on each keypress
 window.requestAnimationFrame(main);
 window.addEventListener("keydown", e => {
-  inputdir = { x: 0, y: 1 };
+  inputdir = { x: 0, y: -1 };
 
   switch (e.key) {
     case "ArrowUp":
@@ -129,3 +156,4 @@ window.addEventListener("keydown", e => {
   }
 
 });
+
